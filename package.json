@@ -1,0 +1,29 @@
+{
+  "name": "umt-markup-practice_p1-polishchuk_diana",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "start": "json-server --watch db.json --port 3000",
+  "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Diana9870/UMT-markup-practice_P1-Polishchuk_Diana.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Diana9870/UMT-markup-practice_P1-Polishchuk_Diana/issues"
+  },
+  "homepage": "https://github.com/Diana9870/UMT-markup-practice_P1-Polishchuk_Diana#readme",
+  "dependencies": {
+    "axios": "^1.18.1"
+  },
+  "devDependencies": {
+    "json-server": "^1.0.0-beta.15"
+  }
+}
+

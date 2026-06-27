@@ -1,0 +1,25 @@
+{
+  "flowers": [
+    {
+      "id": 1,
+      "name": "White Rose",
+      "price": 65,
+      "category": "Rose",
+      "image": "./images/flowers/rose.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Pink Tulip",
+      "price": 40,
+      "category": "Tulip",
+      "image": "./images/flowers/tulip.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Sunflower",
+      "price": 55,
+      "category": "Sunflower",
+      "image": "./images/flowers/sunflower.jpg"
+    }
+  ]
+}
