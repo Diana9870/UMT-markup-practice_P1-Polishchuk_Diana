@@ -367,7 +367,7 @@ background:#000;
 .btn-wrapper{
 
 display:flex;
-justify-content:center;
+justify-content:flex-end;
 gap:16px;
 
 }

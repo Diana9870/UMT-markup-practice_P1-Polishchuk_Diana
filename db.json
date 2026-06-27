@@ -2,24 +2,59 @@
   "flowers": [
     {
       "id": 1,
-      "name": "White Rose",
-      "price": 65,
-      "category": "Rose",
-      "image": "./images/flowers/rose.jpg"
+      "name": "Peach Meadow",
+      "description": "A soft and radiant arrangement of peach and blush roses with lush greenery in a straw basket — light and natural.",
+      "price": 55,
+      "image": "./images/peach-meadow.webp"
     },
     {
       "id": 2,
-      "name": "Pink Tulip",
-      "price": 40,
-      "category": "Tulip",
-      "image": "./images/flowers/tulip.jpg"
+      "name": "Blush Romance",
+      "description": "A premium bouquet of deep pink and ivory roses, complemented by silver eucalyptus — sophisticated and intimate.",
+      "price": 34,
+      "image": "./images/blush-romance.webp"
     },
     {
       "id": 3,
-      "name": "Sunflower",
-      "price": 55,
-      "category": "Sunflower",
-      "image": "./images/flowers/sunflower.jpg"
+      "name": "Pastel Garden",
+      "description": "A pastel-toned mix of spray roses and greenery in a woven basket — gentle, airy, and perfect for any occasion.",
+      "price": 40,
+      "image": "./images/pastel-garden.webp"
+    },
+    {
+      "id": 4,
+      "name": "Tulip Charm",
+      "description": "A vivid bouquet of bright tulips and roses in a lavender box — cheerful and full of charm.",
+      "price": 61,
+      "image": "./images/tulip-charm.webp"
+    },
+    {
+      "id": 5,
+      "name": "Berry Bloom",
+      "description": "A lush mix of rich pink, purple, and cream blooms with textured greens — romantic and elegant.",
+      "price": 32,
+      "image": "./images/berry-bloom.webp"
+    },
+    {
+      "id": 6,
+      "name": "Sweet Whisper",
+      "description": "A charming spring bouquet with peonies, roses, and lilac-toned accents — fresh, lively, and expressive.",
+      "price": 40,
+      "image": "./images/sweet-whisper.webp"
+    },
+    {
+      "id": 7,
+      "name": "Field Joy",
+      "description": "A rustic hand-tied bouquet of sunflowers, lisianthus, and daisies — perfect for brightening the day.",
+      "price": 49,
+      "image": "./images/field-joy.webp"
+    },
+    {
+      "id": 8,
+      "name": "Soft Bloom",
+      "description": "A delicate bouquet of pink carnations and roses wrapped in satin paper — soft, stylish, and versatile.",
+      "price": 37,
+      "image": "./images/soft-bloom.webp"
     }
   ]
 }
