@@ -1081,8 +1081,9 @@ display:none;
   }
 
   .hero-btn {
-    width: 215px;
-  }
+  width: auto;
+  padding: 12px 24px;
+}
 
   /* ABOUT */
 
