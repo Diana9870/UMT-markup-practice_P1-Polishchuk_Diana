@@ -1,41 +1,145 @@
-const bouquetList = document.querySelector(".bouquet-list");
+function createBestsellerMarkup({
+  title,
+  description,
+  price,
+  image,
+  image2x,
+}) {
+  return `
+    <li class="card">
+      <img
+        class="top-selling-img"
+        src="${image}"
+        srcset="${image} 1x, ${image2x} 2x"
+        alt="${title}"
+        width="405"
+        height="320"
+        loading="lazy"
+      />
 
-export function createCard(flower) {
+      <h3 class="top-selling-title">
+        ${title}
+      </h3>
+
+      <p class="top-selling-text">
+        ${description}
+      </p>
+
+      <p class="top-selling-price">
+        $${price}
+      </p>
+    </li>
+  `;
+}
+
+export function renderBestsellers(list, items) {
+  list.innerHTML = '';
+
+  const markup = items
+    .map(createBestsellerMarkup)
+    .join('');
+
+  list.insertAdjacentHTML('beforeend', markup);
+}
+
+function createBouquetMarkup({
+  title,
+  description,
+  price,
+  image,
+  image2x,
+}) {
   return `
     <li class="bouquet-card">
+
       <img
         class="bouquet-img"
-        src="${flower.image}"
-        alt="${flower.name}"
+        src="${image}"
+        srcset="${image} 1x, ${image2x} 2x"
+        alt="${title}"
         width="296"
         height="296"
         loading="lazy"
       >
 
       <h3 class="bouquet-name">
-        ${flower.name}
+        ${title}
       </h3>
 
       <p class="bouquet-text">
-        ${flower.description}
+        ${description}
       </p>
 
       <p class="bouquet-price">
-        $${flower.price}
+        $${price}
       </p>
+
     </li>
   `;
 }
 
-export function renderFlowers(flowers) {
+export function renderBouquets(list, bouquets, append = false) {
+  const markup = bouquets
+    .map(createBouquetMarkup)
+    .join('');
 
-  const markup = flowers
-    .map(createCard)
-    .join("");
+  if (!append) {
+    list.innerHTML = '';
+  }
 
-  bouquetList.insertAdjacentHTML("beforeend", markup);
+  list.insertAdjacentHTML('beforeend', markup);
 }
 
-export function clearFlowers() {
-  bouquetList.innerHTML = "";
+function createFeedbackMarkup({
+  author,
+  text,
+}) {
+  return `
+    <li class="feedback-card">
+
+      <p class="feedback-quote">
+        "${text}"
+      </p>
+
+      <p class="feedback-author">
+        ${author}
+      </p>
+
+    </li>
+  `;
+}
+
+export function renderFeedback(list, feedback) {
+  list.innerHTML = '';
+
+  const markup = feedback
+    .map(createFeedbackMarkup)
+    .join('');
+
+  list.insertAdjacentHTML('beforeend', markup);
+}
+
+export function renderLoading(list) {
+  list.innerHTML = `
+    <li class="loading">
+      Loading...
+    </li>
+  `;
+}
+
+export function renderError(list) {
+  list.innerHTML = `
+    <li class="error">
+      Something went wrong.
+      Please try again later.
+    </li>
+  `;
+}
+
+export function renderEmpty(list) {
+  list.innerHTML = `
+    <li class="empty">
+      No bouquets found.
+    </li>
+  `;
 }

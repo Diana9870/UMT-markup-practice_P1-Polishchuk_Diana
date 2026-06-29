@@ -1,78 +1,122 @@
-import { getFlowers } from "./api.js";
-import { renderFlowers } from "./render.js";
+import {
+  getBestsellers,
+  getBouquets,
+  getFeedback,
+} from './api';
 
-const loadMoreBtn = document.querySelector(".bouquet-btn");
+import {
+  renderBestsellers,
+  renderBouquets,
+  renderFeedback,
+  renderLoading,
+  renderError,
+  renderEmpty,
+} from './render';
+
+import './modal.js';
+
+const bestsellersList = document.querySelector('#bestsellers-list');
+const bouquetList = document.querySelector('#bouquet-list');
+const feedbackList = document.querySelector('#feedback-list');
+
+const loadMoreBtn = document.querySelector('#load-more-btn');
 
 const state = {
   page: 1,
   limit: 4,
-  totalPages: 1,
+  total: 0,
+  category: '',
+  search: '',
 };
 
-async function loadFlowers() {
-
+async function loadBestsellers() {
   try {
+    renderLoading(bestsellersList);
 
-    loadMoreBtn.disabled = true;
-    loadMoreBtn.textContent = "Loading...";
+    const data = await getBestsellers();
 
-    const data = await getFlowers(
-      state.page,
-      state.limit
-    );
-
-    renderFlowers(data.data);
-
-    state.totalPages = data.pages;
-
-    if (state.page >= state.totalPages) {
-
-      loadMoreBtn.style.display = "none";
-
-      const message = document.createElement("p");
-
-      message.className = "end-message";
-
-      message.textContent = "All bouquets have been loaded.";
-
-      document
-        .querySelector(".bouquet-container")
-        .append(message);
-
-    } else {
-
-      loadMoreBtn.disabled = false;
-
-      loadMoreBtn.textContent = "Show More";
-
-    }
-
+    renderBestsellers(bestsellersList, data);
   } catch (error) {
-
     console.error(error);
 
-    loadMoreBtn.style.display = "none";
-
-    const message = document.createElement("p");
-
-    message.className = "error-message";
-
-    message.textContent =
-      "Failed to load bouquets. Please try again later.";
-
-    document
-      .querySelector(".bouquet-container")
-      .append(message);
+    renderError(bestsellersList);
   }
-
 }
 
-loadFlowers();
+async function loadFeedback() {
+  try {
+    renderLoading(feedbackList);
 
-loadMoreBtn.addEventListener("click", () => {
+    const data = await getFeedback();
 
-  state.page++;
+    renderFeedback(feedbackList, data);
+  } catch (error) {
+    console.error(error);
 
-  loadFlowers();
+    renderError(feedbackList);
+  }
+}
 
+async function loadBouquets(append = false) {
+  try {
+    if (!append) {
+      renderLoading(bouquetList);
+    }
+
+    const { bouquets, total } = await getBouquets({
+      page: state.page,
+      limit: state.limit,
+      category: state.category,
+      search: state.search,
+    });
+
+    state.total = total;
+
+    if (!append && bouquets.length === 0) {
+      renderEmpty(bouquetList);
+      loadMoreBtn.hidden = true;
+      return;
+    }
+
+    renderBouquets(bouquetList, bouquets, append);
+
+    updateLoadMoreButton();
+  } catch (error) {
+    console.error(error);
+
+    renderError(bouquetList);
+  }
+}
+
+function updateLoadMoreButton() {
+  const loadedItems = state.page * state.limit;
+
+  loadMoreBtn.hidden = loadedItems >= state.total;
+}
+
+loadMoreBtn.addEventListener('click', async () => {
+  state.page += 1;
+
+  await loadBouquets(true);
 });
+
+export async function applyFilters({
+  category = '',
+  search = '',
+}) {
+  state.category = category;
+  state.search = search;
+  state.page = 1;
+
+  await loadBouquets();
+}
+
+async function init() {
+  await Promise.all([
+    loadBestsellers(),
+    loadFeedback(),
+    loadBouquets(),
+  ]);
+}
+
+init();
