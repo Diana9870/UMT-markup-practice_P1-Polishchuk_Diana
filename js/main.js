@@ -4,7 +4,7 @@ import {
   getFeedback,
   createOrder,
   subscribe,
-} from './api';
+} from './api.js';
 
 import {
   renderBestsellers,
@@ -13,7 +13,7 @@ import {
   renderLoading,
   renderError,
   renderEmpty,
-} from './render';
+} from './render.js';
 
 import './modal.js';
 
