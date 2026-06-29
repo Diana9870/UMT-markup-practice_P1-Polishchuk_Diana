@@ -1,21 +1,16 @@
 import axios from 'axios';
 
-// URL локального json-server
 const LOCAL_API = 'http://localhost:3000';
 
-// URL API після розгортання на Render
-const PRODUCTION_API = 'https://YOUR-RENDER-URL.onrender.com';
+const PRODUCTION_API = 'https://flora-api-q559.onrender.com';
 
-// Автоматичний вибір API
 const BASE_URL =
-  window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
-    ? LOCAL_API
-    : PRODUCTION_API;
+  import.meta.env.DEV
+    ? 'http://localhost:3000'
+    : 'https://flora-api-q559.onrender.com';
 
 const api = axios.create({
   baseURL: BASE_URL,
-  timeout: 5000,
 });
 
 export async function getBouquets({
