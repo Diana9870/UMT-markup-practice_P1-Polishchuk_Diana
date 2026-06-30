@@ -16,6 +16,7 @@ import {
 } from './render.js';
 
 import './modal.js';
+import './slider.js';
 
 const bestsellersList = document.querySelector('#bestsellers-list');
 const bouquetList = document.querySelector('#bouquet-list');

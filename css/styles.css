@@ -313,6 +313,17 @@ display:none;
 
 }
 
+.bestsellers-list {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.bestsellers-list::-webkit-scrollbar {
+  display: none;
+}
+
 .top-selling-img{
 
 border-radius:16px;
@@ -347,7 +358,13 @@ margin-bottom:24px;
 
 }
 
+.pagination-btn.disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
 .dot{
+transition: background-color 250ms ease;
 
 width:8px;
 height:8px;
@@ -516,6 +533,17 @@ height:24px;
   gap: 24px;
 
   margin-bottom: 32px;
+}
+
+.feedback-list {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.feedback-list::-webkit-scrollbar {
+  display: none;
 }
 
 .feedback-list li:nth-child(2),
