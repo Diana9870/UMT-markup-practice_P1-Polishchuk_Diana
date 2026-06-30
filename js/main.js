@@ -16,7 +16,7 @@ import {
 } from './render.js';
 
 import './modal.js';
-import './slider.js';
+import { initSlider } from './slider.js';
 
 const bestsellersList = document.querySelector('#bestsellers-list');
 const bouquetList = document.querySelector('#bouquet-list');
@@ -44,6 +44,11 @@ async function loadBestsellers() {
     const data = await getBestsellers();
 
     renderBestsellers(bestsellersList, data);
+    initSlider(
+      '.sell-section',
+      '.bestsellers-list',
+      '.pagination-dots'
+    );
   } catch (error) {
     console.error(error);
 
@@ -58,6 +63,11 @@ async function loadFeedback() {
     const data = await getFeedback();
 
     renderFeedback(feedbackList, data);
+
+    initSlider(
+  '.feedback-section',
+  '.feedback-list'
+  );
   } catch (error) {
     console.error(error);
 

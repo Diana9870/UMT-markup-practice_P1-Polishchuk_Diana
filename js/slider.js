@@ -1,7 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-  initSlider('.sell-section', '.bestsellers-list', '.pagination-dots');
-  initSlider('.feedback-section', '.feedback-list');
-});
+export function initSlider(sectionSelector, listSelector, dotsSelector = null) {
 
 function initSlider(sectionSelector, listSelector, dotsSelector = null) {
   const section = document.querySelector(sectionSelector);
@@ -79,4 +76,13 @@ function initSlider(sectionSelector, listSelector, dotsSelector = null) {
 
   updateButtons();
   updateDots();
+}
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      list.scrollTo({
+        left: index * getCardWidth(),
+        behavior: 'smooth',
+      });
+    });
+  });
 }

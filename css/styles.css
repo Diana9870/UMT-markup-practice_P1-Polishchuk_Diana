@@ -360,6 +360,7 @@ margin-bottom:24px;
 
 .pagination-btn.disabled {
   opacity: 0.35;
+  cursor: not-allowed;
   pointer-events: none;
 }
 
