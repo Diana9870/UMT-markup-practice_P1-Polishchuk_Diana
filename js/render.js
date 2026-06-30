@@ -1,3 +1,5 @@
+const IMAGE_PATH = `${import.meta.env.BASE_URL}images/`;
+
 function createBestsellerMarkup({
   title,
   description,
@@ -9,8 +11,8 @@ function createBestsellerMarkup({
     <li class="card">
       <img
         class="top-selling-img"
-        src="${image}"
-        srcset="${image} 1x, ${image2x} 2x"
+        src="${IMAGE_PATH}${image}"
+        srcset="${IMAGE_PATH}${image} 1x, ${IMAGE_PATH}${image2x} 2x"
         alt="${title}"
         width="405"
         height="320"
@@ -54,8 +56,8 @@ function createBouquetMarkup({
 
       <img
         class="bouquet-img"
-        src="${image}"
-        srcset="${image} 1x, ${image2x} 2x"
+        src="${IMAGE_PATH}${image}"
+        srcset="${IMAGE_PATH}${image} 1x, ${IMAGE_PATH}${image2x} 2x"
         alt="${title}"
         width="296"
         height="296"
