@@ -1,4 +1,4 @@
-const IMAGE_PATH = `${import.meta.env.BASE_URL}images/`;
+const IMAGE_PATH = `${import.meta.env.BASE_URL}`;
 
 function createBestsellerMarkup({
   title,
