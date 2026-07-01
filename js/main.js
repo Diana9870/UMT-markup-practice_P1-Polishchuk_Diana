@@ -214,11 +214,11 @@ export async function applyFilters({
 }
 
 async function init() {
-  await Promise.all([
-    loadBestsellers(),
-    loadFeedback(),
-    loadBouquets(),
-  ]);
+  await loadBestsellers();
+
+  await loadFeedback();
+
+  await loadBouquets();
 }
 
 init();

@@ -5,8 +5,10 @@ export function initSlider(sectionSelector, listSelector, dotsSelector = null) {
   if (!section || !list) return;
 
   const buttons = section.querySelectorAll(".pagination-btn");
-  const prevBtn = buttons[0];
-  const nextBtn = buttons[1];
+
+  if (buttons.length < 2) return;
+
+  const [prevBtn, nextBtn] = buttons;
 
   const dots = dotsSelector
     ? document.querySelectorAll(`${dotsSelector} .dot`)
@@ -23,12 +25,14 @@ export function initSlider(sectionSelector, listSelector, dotsSelector = null) {
   }
 
   function maxScroll() {
-    return list.scrollWidth - list.clientWidth;
+    return Math.max(0, list.scrollWidth - list.clientWidth);
   }
 
   function updateButtons() {
+    const end = Math.ceil(list.scrollLeft) >= maxScroll() - 5;
+
     prevBtn.disabled = list.scrollLeft <= 5;
-    nextBtn.disabled = list.scrollLeft >= maxScroll() - 5;
+    nextBtn.disabled = end;
 
     prevBtn.classList.toggle("disabled", prevBtn.disabled);
     nextBtn.classList.toggle("disabled", nextBtn.disabled);
