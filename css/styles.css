@@ -299,11 +299,13 @@ margin-bottom:42px;
 }
 
 .bestsellers-list{
+    display:flex;
+    gap:24px;
 
-display:flex;
-justify-content:center;
-gap:24px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
 
+    flex-wrap:nowrap;
 }
 
 .bestsellers-list li:nth-child(2),
