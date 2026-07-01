@@ -298,13 +298,12 @@ margin-bottom:42px;
 
 }
 
-.bestsellers-list {
-    display: flex;
-    gap: 24px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    flex-wrap: nowrap;
+.bestsellers-list{
+
+display:flex;
+justify-content:center;
+gap:24px;
+
 }
 
 .bestsellers-list li:nth-child(2),
@@ -314,8 +313,11 @@ display:none;
 
 }
 
-.bestsellers-list li {
-    flex: 0 0 auto;
+.bestsellers-list {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 
 .bestsellers-list::-webkit-scrollbar {
@@ -323,12 +325,9 @@ display:none;
 }
 
 .top-selling-img{
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 16px;
-    object-fit: cover;
-    margin-bottom:16px;
+
+border-radius:16px;
+margin-bottom:16px;
 
 }
 
@@ -530,18 +529,18 @@ height:24px;
 
 .feedback-list {
   display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  flex-wrap: nowrap;
   align-items: stretch;
   flex-direction: column;
+  gap: 24px;
+
   margin-bottom: 32px;
 }
 
-.feedback-list li {
-  flex: 0 0 auto;
+.feedback-list {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 
 .feedback-list::-webkit-scrollbar {
@@ -1291,8 +1290,7 @@ display:none;
   }
 
   .card {
-    flex: 0 0 auto;
-    min-width: 296px;
+    flex: 1;
   }
 
   .top-selling-img {
@@ -1360,9 +1358,8 @@ display:none;
   }
 
   .feedback-card {
-    flex: 0 0 auto;
+    flex: 1;
     display: flex;
-    min-width: 320px;
     flex-direction: column;
   }
 

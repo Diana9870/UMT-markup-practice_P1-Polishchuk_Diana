@@ -1,4 +1,4 @@
-export function initSlider(sectionSelector, listSelector, dotsSelector = null) {
+export function initSlider(sectionSelector, listSelector) {
   const section = document.querySelector(sectionSelector);
   const list = document.querySelector(listSelector);
 
@@ -10,79 +10,56 @@ export function initSlider(sectionSelector, listSelector, dotsSelector = null) {
 
   const [prevBtn, nextBtn] = buttons;
 
-  const dots = dotsSelector
-    ? document.querySelectorAll(`${dotsSelector} .dot`)
-    : [];
+  let currentIndex = 0;
 
-  function getCardWidth() {
-    const card = list.querySelector("li");
-
-    if (!card) return 320;
-
-    const gap = parseInt(getComputedStyle(list).gap) || 24;
-
-    return card.offsetWidth + gap;
+  function getVisibleCards() {
+    if (window.innerWidth >= 1440) return 3;
+    if (window.innerWidth >= 768) return 2;
+    return 1;
   }
 
-  function maxScroll() {
-    return Math.max(0, list.scrollWidth - list.clientWidth);
+  function getCards() {
+    return [...list.children];
   }
 
-  function updateButtons() {
-    const end = Math.ceil(list.scrollLeft) >= maxScroll() - 5;
+  function update() {
+    const cards = getCards();
+    const visible = getVisibleCards();
 
-    prevBtn.disabled = list.scrollLeft <= 5;
-    nextBtn.disabled = end;
+    cards.forEach((card, index) => {
+      if (
+        index >= currentIndex &&
+        index < currentIndex + visible
+      ) {
+        card.style.display = "";
+      } else {
+        card.style.display = "none";
+      }
+    });
 
-    prevBtn.classList.toggle("disabled", prevBtn.disabled);
-    nextBtn.classList.toggle("disabled", nextBtn.disabled);
-  }
+    prevBtn.disabled = currentIndex === 0;
 
-  function updateDots() {
-    if (!dots.length) return;
-
-    const index = Math.round(list.scrollLeft / getCardWidth());
-
-    dots.forEach(dot => dot.classList.remove("active"));
-
-    if (dots[index]) {
-      dots[index].classList.add("active");
-    }
+    nextBtn.disabled =
+      currentIndex >= cards.length - visible;
   }
 
   prevBtn.addEventListener("click", () => {
-    list.scrollBy({
-      left: -getCardWidth(),
-      behavior: "smooth",
-    });
+    if (currentIndex > 0) {
+      currentIndex--;
+      update();
+    }
   });
 
   nextBtn.addEventListener("click", () => {
-    list.scrollBy({
-      left: getCardWidth(),
-      behavior: "smooth",
-    });
+    const cards = getCards();
+
+    if (currentIndex < cards.length - getVisibleCards()) {
+      currentIndex++;
+      update();
+    }
   });
 
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-      list.scrollTo({
-        left: index * getCardWidth(),
-        behavior: "smooth",
-      });
-    });
-  });
+  window.addEventListener("resize", update);
 
-  list.addEventListener("scroll", () => {
-    updateButtons();
-    updateDots();
-  });
-
-  window.addEventListener("resize", () => {
-    updateButtons();
-    updateDots();
-  });
-
-  updateButtons();
-  updateDots();
+  update();
 }
