@@ -1125,6 +1125,10 @@ display:none;
     gap: 24px;
   }
 
+  .card {
+    flex: 1;
+  }
+
   .top-selling-img {
     width: 100%;
   }
@@ -1146,6 +1150,10 @@ display:none;
   .feedback-list {
     flex-direction: row;
     gap: 24px;
+  }
+
+  .feedback-card {
+    flex: 1;
   }
 
   /* CONNECT */
