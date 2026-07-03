@@ -1,4 +1,4 @@
-export function initSlider(sectionSelector, listSelector) {
+export function initSlider(sectionSelector, listSelector, dotsSelector) {
   const section = document.querySelector(sectionSelector);
   const list = document.querySelector(listSelector);
 
@@ -9,6 +9,10 @@ export function initSlider(sectionSelector, listSelector) {
   if (buttons.length < 2) return;
 
   const [prevBtn, nextBtn] = buttons;
+
+  const dots = dotsSelector
+    ? [...section.querySelectorAll(`${dotsSelector} .dot`)]
+    : [];
 
   let currentIndex = 0;
 
@@ -37,10 +41,25 @@ export function initSlider(sectionSelector, listSelector) {
       }
     });
 
-    prevBtn.disabled = currentIndex === 0;
+    const isStart = currentIndex === 0;
+    const isEnd = currentIndex >= cards.length - visible;
 
-    nextBtn.disabled =
-      currentIndex >= cards.length - visible;
+    prevBtn.disabled = isStart;
+    prevBtn.classList.toggle("disabled", isStart);
+
+    nextBtn.disabled = isEnd;
+    nextBtn.classList.toggle("disabled", isEnd);
+
+    if (dots.length) {
+      const activeDot = Math.min(
+        Math.round(currentIndex / visible),
+        dots.length - 1
+      );
+
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === activeDot);
+      });
+    }
   }
 
   prevBtn.addEventListener("click", () => {
