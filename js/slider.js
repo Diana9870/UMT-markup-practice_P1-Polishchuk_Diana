@@ -15,6 +15,9 @@ export function initSlider(sectionSelector, listSelector, dotsSelector) {
     : [];
 
   let currentIndex = 0;
+  let isAnimating = false;
+
+  const TRANSITION_MS = 300;
 
   function getVisibleCards() {
     if (window.innerWidth >= 1440) return 3;
@@ -62,10 +65,28 @@ export function initSlider(sectionSelector, listSelector, dotsSelector) {
     }
   }
 
+  function goTo(newIndex) {
+    if (isAnimating || newIndex === currentIndex) return;
+
+    isAnimating = true;
+    list.classList.add("is-switching");
+
+    window.setTimeout(() => {
+      currentIndex = newIndex;
+      update();
+
+      // force reflow so the browser registers the new state
+      // before removing the class, otherwise no transition plays
+      void list.offsetWidth;
+
+      list.classList.remove("is-switching");
+      isAnimating = false;
+    }, TRANSITION_MS);
+  }
+
   prevBtn.addEventListener("click", () => {
     if (currentIndex > 0) {
-      currentIndex--;
-      update();
+      goTo(currentIndex - 1);
     }
   });
 
@@ -73,8 +94,7 @@ export function initSlider(sectionSelector, listSelector, dotsSelector) {
     const cards = getCards();
 
     if (currentIndex < cards.length - getVisibleCards()) {
-      currentIndex++;
-      update();
+      goTo(currentIndex + 1);
     }
   });
 

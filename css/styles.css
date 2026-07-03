@@ -311,10 +311,17 @@ gap:24px;
   overflow: hidden;
   scroll-behavior: smooth;
   scrollbar-width: none;
+
+  transition: opacity 300ms cubic-bezier(.4,0,.2,1), transform 300ms cubic-bezier(.4,0,.2,1);
 }
 
 .bestsellers-list::-webkit-scrollbar {
   display: none;
+}
+
+.bestsellers-list.is-switching {
+  opacity: 0;
+  transform: translateX(12px);
 }
 
 .top-selling-img{
@@ -534,10 +541,17 @@ height:24px;
   overflow: hidden;
   scroll-behavior: smooth;
   scrollbar-width: none;
+
+  transition: opacity 300ms cubic-bezier(.4,0,.2,1), transform 300ms cubic-bezier(.4,0,.2,1);
 }
 
 .feedback-list::-webkit-scrollbar {
   display: none;
+}
+
+.feedback-list.is-switching {
+  opacity: 0;
+  transform: translateX(12px);
 }
 
 .feedback-card {
