@@ -28,14 +28,11 @@ const loadMoreBtn = document.querySelector('#load-more-btn');
 const orderForm = document.querySelector('#order-form');
 const subscribeForm = document.querySelector('#subscribe-form');
 
-const searchInput = document.querySelector('#search-input');
-
 const state = {
   page: 1,
   limit: 4,
   total: 0,
   category: '',
-  search: '',
 };
 
 async function loadBestsellers() {
@@ -86,7 +83,6 @@ async function loadBouquets(append = false) {
       page: state.page,
       limit: state.limit,
       category: state.category,
-      search: state.search,
     });
 
     state.total = total;
@@ -118,22 +114,6 @@ loadMoreBtn.addEventListener('click', async () => {
 
   await loadBouquets(true);
 });
-
-if (searchInput) {
-  searchInput.addEventListener('input', debounceSearch);
-}
-
-let searchTimeout;
-
-function debounceSearch(event) {
-  clearTimeout(searchTimeout);
-
-  searchTimeout = setTimeout(() => {
-    applyFilters({
-      search: event.target.value.trim(),
-    });
-  }, 400);
-}
 
 if (orderForm) {
   orderForm.addEventListener('submit', handleOrderSubmit);
@@ -205,10 +185,8 @@ async function handleSubscribe(event) {
 
 export async function applyFilters({
   category = '',
-  search = '',
 }) {
   state.category = category;
-  state.search = search;
   state.page = 1;
 
   await loadBouquets();

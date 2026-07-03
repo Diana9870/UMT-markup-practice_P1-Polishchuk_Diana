@@ -17,7 +17,6 @@ export async function getBouquets({
   page = 1,
   limit = 4,
   category = '',
-  search = '',
 } = {}) {
   try {
     const params = {
@@ -27,10 +26,6 @@ export async function getBouquets({
 
     if (category) {
       params.category = category;
-    }
-
-    if (search) {
-      params.title_like = search;
     }
 
     const response = await api.get('/bouquets', { params });
