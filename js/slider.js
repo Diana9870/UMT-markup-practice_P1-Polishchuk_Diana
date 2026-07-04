@@ -10,9 +10,13 @@ export function initSlider(sectionSelector, listSelector, dotsSelector) {
 
   const [prevBtn, nextBtn] = buttons;
 
-  const dots = dotsSelector
-    ? [...section.querySelectorAll(`${dotsSelector} .dot`)]
-    : [];
+  const dotsContainer = dotsSelector
+    ? section.querySelector(dotsSelector)
+    : null;
+
+  const paginationContainer = section.querySelector(".pagination-container");
+
+  let dots = dotsContainer ? [...dotsContainer.querySelectorAll(".dot")] : [];
 
   let currentIndex = 0;
   let isAnimating = false;
@@ -29,9 +33,57 @@ export function initSlider(sectionSelector, listSelector, dotsSelector) {
     return [...list.children];
   }
 
+  function getMaxIndex(cards, visible) {
+    return Math.max(0, cards.length - visible);
+  }
+
+  function getTotalPages(cards, visible) {
+    if (!cards.length) return 1;
+
+    return Math.max(1, Math.ceil(cards.length / visible));
+  }
+
+  function renderDots(cards, visible) {
+    if (!dotsContainer) return;
+
+    const totalPages = getTotalPages(cards, visible);
+
+    dotsContainer.innerHTML = "";
+    dots = [];
+
+    for (let i = 0; i < totalPages; i += 1) {
+      const dot = document.createElement("li");
+      dot.className = "dot";
+      dot.setAttribute("role", "button");
+      dot.setAttribute("tabindex", "0");
+      dot.setAttribute("aria-label", `Go to page ${i + 1}`);
+
+      const activateDot = () => {
+        goTo(Math.min(i * visible, getMaxIndex(cards, visible)));
+      };
+
+      dot.addEventListener("click", activateDot);
+      dot.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          activateDot();
+        }
+      });
+
+      dotsContainer.appendChild(dot);
+      dots.push(dot);
+    }
+  }
+
   function update() {
     const cards = getCards();
     const visible = getVisibleCards();
+    const maxIndex = getMaxIndex(cards, visible);
+    const totalPages = getTotalPages(cards, visible);
+
+    if (currentIndex > maxIndex) {
+      currentIndex = maxIndex;
+    }
 
     cards.forEach((card, index) => {
       if (
@@ -45,13 +97,21 @@ export function initSlider(sectionSelector, listSelector, dotsSelector) {
     });
 
     const isStart = currentIndex === 0;
-    const isEnd = currentIndex >= cards.length - visible;
+    const isEnd = currentIndex >= maxIndex;
 
     prevBtn.disabled = isStart;
     prevBtn.classList.toggle("disabled", isStart);
 
     nextBtn.disabled = isEnd;
     nextBtn.classList.toggle("disabled", isEnd);
+
+    if (paginationContainer) {
+      paginationContainer.hidden = totalPages <= 1;
+    }
+
+    if (dotsContainer && dots.length !== totalPages) {
+      renderDots(cards, visible);
+    }
 
     if (dots.length) {
       const activeDot = Math.min(
@@ -75,8 +135,6 @@ export function initSlider(sectionSelector, listSelector, dotsSelector) {
       currentIndex = newIndex;
       update();
 
-      // force reflow so the browser registers the new state
-      // before removing the class, otherwise no transition plays
       void list.offsetWidth;
 
       list.classList.remove("is-switching");
@@ -100,5 +158,6 @@ export function initSlider(sectionSelector, listSelector, dotsSelector) {
 
   window.addEventListener("resize", update);
 
+  renderDots(getCards(), getVisibleCards());
   update();
 }

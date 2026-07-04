@@ -1,6 +1,7 @@
 const IMAGE_PATH = `${import.meta.env.BASE_URL}`;
 
 function createBestsellerMarkup({
+  id,
   title,
   description,
   price,
@@ -8,7 +9,13 @@ function createBestsellerMarkup({
   image2x,
 }) {
   return `
-    <li class="card">
+    <li
+      class="card"
+      data-id="${id}"
+      tabindex="0"
+      role="button"
+      aria-label="View details for ${title}"
+    >
       <img
         class="top-selling-img"
         src="${IMAGE_PATH}${image}"
@@ -45,6 +52,7 @@ export function renderBestsellers(list, items) {
 }
 
 function createBouquetMarkup({
+  id,
   title,
   description,
   price,
@@ -52,7 +60,13 @@ function createBouquetMarkup({
   image2x,
 }) {
   return `
-    <li class="bouquet-card">
+    <li
+      class="bouquet-card"
+      data-id="${id}"
+      tabindex="0"
+      role="button"
+      aria-label="View details for ${title}"
+    >
 
       <img
         class="bouquet-img"

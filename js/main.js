@@ -15,9 +15,11 @@ import {
   renderEmpty,
 } from './render.js';
 
-import './modal.js';
+import { openProductModal } from './modal.js';
 import '../css/styles.css';
 import { initSlider } from './slider.js';
+
+const IMAGE_PATH = `${import.meta.env.BASE_URL}`;
 
 const bestsellersList = document.querySelector('#bestsellers-list');
 const bouquetList = document.querySelector('#bouquet-list');
@@ -35,11 +37,70 @@ const state = {
   category: '',
 };
 
+// Keep a lookup of loaded products by id so a click on any
+// bestseller or bouquet card can open the product modal with
+// that specific bouquet's own data.
+const bestsellersById = new Map();
+const bouquetsById = new Map();
+
+function toModalProduct(item) {
+  return {
+    ...item,
+    image: `${IMAGE_PATH}${item.image}`,
+    image2x: item.image2x ? `${IMAGE_PATH}${item.image2x}` : '',
+  };
+}
+
+function handleCardActivate(event, itemsById) {
+  const card = event.target.closest('[data-id]');
+
+  if (!card) return;
+
+  const product = itemsById.get(card.dataset.id);
+
+  if (product) {
+    openProductModal(toModalProduct(product));
+  }
+}
+
+function handleCardKeydown(event, itemsById) {
+  if (event.key !== 'Enter' && event.key !== ' ') return;
+
+  const card = event.target.closest('[data-id]');
+
+  if (!card) return;
+
+  event.preventDefault();
+
+  const product = itemsById.get(card.dataset.id);
+
+  if (product) {
+    openProductModal(toModalProduct(product));
+  }
+}
+
+bestsellersList.addEventListener('click', event =>
+  handleCardActivate(event, bestsellersById)
+);
+bestsellersList.addEventListener('keydown', event =>
+  handleCardKeydown(event, bestsellersById)
+);
+
+bouquetList.addEventListener('click', event =>
+  handleCardActivate(event, bouquetsById)
+);
+bouquetList.addEventListener('keydown', event =>
+  handleCardKeydown(event, bouquetsById)
+);
+
 async function loadBestsellers() {
   try {
     renderLoading(bestsellersList);
 
     const data = await getBestsellers();
+
+    bestsellersById.clear();
+    data.forEach(item => bestsellersById.set(String(item.id), item));
 
     renderBestsellers(bestsellersList, data);
     initSlider(
@@ -88,10 +149,16 @@ async function loadBouquets(append = false) {
     state.total = total;
 
     if (!append && bouquets.length === 0) {
+      bouquetsById.clear();
       renderEmpty(bouquetList);
       loadMoreBtn.hidden = true;
       return;
     }
+
+    if (!append) {
+      bouquetsById.clear();
+    }
+    bouquets.forEach(item => bouquetsById.set(String(item.id), item));
 
     renderBouquets(bouquetList, bouquets, append);
 

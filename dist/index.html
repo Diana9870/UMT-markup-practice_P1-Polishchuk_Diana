@@ -23,9 +23,8 @@
       href="https://unpkg.com/aos@2.3.4/dist/aos.css" 
     />
 
-
-    <script type="module" crossorigin src="/UMT-markup-practice_P1-Polishchuk_Diana/assets/index-DfBYu7Ee.js"></script>
-    <link rel="stylesheet" crossorigin href="/UMT-markup-practice_P1-Polishchuk_Diana/assets/index-DR1xisL9.css">
+    <script type="module" crossorigin src="/UMT-markup-practice_P1-Polishchuk_Diana/assets/index-zHKB9sd-.js"></script>
+    <link rel="stylesheet" crossorigin href="/UMT-markup-practice_P1-Polishchuk_Diana/assets/index-DDEF4KEq.css">
   </head>
   <body>
     <main>
@@ -144,9 +143,6 @@
             <li class="dot active"></li>
             <li class="dot"></li>
             <li class="dot"></li>
-            <li class="dot"></li>
-            <li class="dot"></li>
-            <li class="dot"></li>
           </ul>
 
           <div class="btn-wrapper">
@@ -170,15 +166,6 @@
           <p class="bouquet-desc">
             Explore our stunning selection of fresh flower bouquets.
           </p>
-
-          <div class="bouquet-filter">
-            <input
-              type="search"
-              id="search-input"
-              class="search-input"
-              placeholder="Search bouquet..."
-            >
-          </div>
 
           <ul class="bouquet-list" id="bouquet-list"></ul>
           <button
@@ -465,6 +452,76 @@
 
     </div>
 
+    <div class="backdrop" data-product-modal>
+
+        <div class="modal product-modal">
+
+            <button
+                class="modal-close-btn"
+                type="button"
+                data-product-modal-close
+                aria-label="Close modal"
+            >
+                ✕
+            </button>
+
+            <div class="product-modal-media">
+                <img
+                    class="product-modal-img"
+                    data-product-image
+                    src=""
+                    alt=""
+                    width="384"
+                    height="384"
+                >
+            </div>
+
+            <div class="product-modal-info">
+
+                <h2 class="product-modal-title" data-product-title></h2>
+
+                <p class="product-modal-price" data-product-price></p>
+
+                <p class="product-modal-desc" data-product-description></p>
+
+                <div class="product-modal-actions">
+
+                    <button
+                        class="primary-btn product-buy-btn"
+                        type="button"
+                        data-product-buy
+                    >
+                        Buy now
+                    </button>
+
+                    <div class="qty-control" data-qty-control>
+                        <button
+                            class="qty-btn"
+                            type="button"
+                            data-qty-decrease
+                            aria-label="Decrease quantity"
+                        >
+                            −
+                        </button>
+                        <span class="qty-value" data-qty-value>1</span>
+                        <button
+                            class="qty-btn"
+                            type="button"
+                            data-qty-increase
+                            aria-label="Increase quantity"
+                        >
+                            +
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
     <!-- Mobile Menu -->
 
     <div
@@ -539,6 +596,7 @@
         });
       });
       </script>
+
 
 
   </body>
