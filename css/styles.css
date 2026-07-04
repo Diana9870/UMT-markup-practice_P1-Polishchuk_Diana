@@ -987,7 +987,8 @@ opacity:1;
 =========================== */
 
 .product-modal {
-  max-width: 900px;
+  width: 335px;
+  max-width: 100%;
 
   padding: 0;
 
@@ -1004,7 +1005,7 @@ opacity:1;
 
   padding: 32px;
 
-  background: #0b3060;
+  background: #fff;
 }
 
 .product-modal-img {
@@ -1129,6 +1130,8 @@ opacity:1;
 
 @media screen and (min-width: 768px) {
   .product-modal {
+    width: 704px;
+
     flex-direction: row;
   }
 
@@ -1142,6 +1145,12 @@ opacity:1;
     flex: 1;
 
     padding: 40px 64px 40px 40px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .product-modal {
+    width: 1280px;
   }
 }
 
