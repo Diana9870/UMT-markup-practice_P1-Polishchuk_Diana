@@ -1,16 +1,19 @@
 import axios from 'axios';
 
-const LOCAL_API = 'http://localhost:3000';
+const FLORA_API_URL = import.meta.env.DEV
+  ? 'http://localhost:3000'
+  : 'https://flora-api-q559.onrender.com';
 
-const PRODUCTION_API = 'https://flora-api-q559.onrender.com';
+const floraApi = axios.create({
+  baseURL: FLORA_API_URL,
+});
 
-const BASE_URL =
-  import.meta.env.DEV
-    ? 'http://localhost:3000'
-    : 'https://flora-api-q559.onrender.com';
+const MOCK_API_URL = import.meta.env.DEV
+  ? 'http://localhost:3000'
+  : 'https://flora-api-q559.onrender.com';
 
-const api = axios.create({
-  baseURL: BASE_URL,
+const mockApi = axios.create({
+  baseURL: MOCK_API_URL,
 });
 
 export async function getBouquets({
@@ -19,20 +22,17 @@ export async function getBouquets({
   category = '',
 } = {}) {
   try {
-    const params = {
-      _page: page,
-      _limit: limit,
-    };
+    const params = { page, limit };
 
     if (category) {
       params.category = category;
     }
 
-    const response = await api.get('/bouquets', { params });
+    const response = await floraApi.get('/api/bouquets', { params });
 
     return {
-      bouquets: response.data,
-      total: Number(response.headers['x-total-count']) || response.data.length,
+      bouquets: response.data.bouquets,
+      total: response.data.total,
     };
   } catch (error) {
     console.error('Error loading bouquets:', error);
@@ -42,7 +42,7 @@ export async function getBouquets({
 
 export async function getBestsellers() {
   try {
-    const response = await api.get('/bestsellers');
+    const response = await mockApi.get('/bestsellers');
     return response.data;
   } catch (error) {
     console.error('Error loading bestsellers:', error);
@@ -52,7 +52,7 @@ export async function getBestsellers() {
 
 export async function getFeedback() {
   try {
-    const response = await api.get('/feedback');
+    const response = await mockApi.get('/feedback');
     return response.data;
   } catch (error) {
     console.error('Error loading feedback:', error);
@@ -62,7 +62,7 @@ export async function getFeedback() {
 
 export async function createOrder(order) {
   try {
-    const response = await api.post('/orders', order);
+    const response = await mockApi.post('/orders', order);
     return response.data;
   } catch (error) {
     console.error('Error creating order:', error);
@@ -72,7 +72,7 @@ export async function createOrder(order) {
 
 export async function subscribe(email) {
   try {
-    const response = await api.post('/subscribers', {
+    const response = await mockApi.post('/subscribers', {
       email,
     });
 

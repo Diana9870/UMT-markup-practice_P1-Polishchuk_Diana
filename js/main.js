@@ -44,6 +44,12 @@ const bestsellersById = new Map();
 const bouquetsById = new Map();
 
 function toModalProduct(item) {
+  // Bouquets from the real backend already carry an absolute photoURL;
+  // bestsellers still use the old local image/image2x pair.
+  if (item.photoURL) {
+    return { ...item, image: item.photoURL, image2x: '' };
+  }
+
   return {
     ...item,
     image: `${IMAGE_PATH}${item.image}`,

@@ -56,9 +56,17 @@ function createBouquetMarkup({
   title,
   description,
   price,
+  photoURL,
   image,
   image2x,
 }) {
+  const cover = photoURL || (image ? `${IMAGE_PATH}${image}` : '');
+  const srcset = photoURL
+    ? ''
+    : image2x
+      ? `srcset="${IMAGE_PATH}${image} 1x, ${IMAGE_PATH}${image2x} 2x"`
+      : '';
+
   return `
     <li
       class="bouquet-card"
@@ -70,8 +78,8 @@ function createBouquetMarkup({
 
       <img
         class="bouquet-img"
-        src="${IMAGE_PATH}${image}"
-        srcset="${IMAGE_PATH}${image} 1x, ${IMAGE_PATH}${image2x} 2x"
+        src="${cover}"
+        ${srcset}
         alt="${title}"
         width="296"
         height="296"
