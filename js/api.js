@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// Real backend (flora-api): bouquets, bestsellers, feedback.
 const FLORA_API_URL = import.meta.env.DEV
   ? 'http://localhost:3000'
   : 'https://flora-api-q559.onrender.com';
@@ -8,6 +9,10 @@ const floraApi = axios.create({
   baseURL: FLORA_API_URL,
 });
 
+// Mock backend: orders, subscribers — not implemented in flora-api yet.
+// Point this at your json-server (or wherever those endpoints live) once
+// it's available; kept separate from floraApi on purpose so the two
+// don't get mixed up again.
 const MOCK_API_URL = import.meta.env.DEV
   ? 'http://localhost:3000'
   : 'https://flora-api-q559.onrender.com';
@@ -42,8 +47,11 @@ export async function getBouquets({
 
 export async function getBestsellers() {
   try {
-    const response = await mockApi.get('/bestsellers');
-    return response.data;
+    const response = await floraApi.get('/api/bestsellers');
+
+    // Backend returns { bestsellers, total }; callers (main.js) expect a
+    // plain array, so unwrap it here.
+    return response.data.bestsellers;
   } catch (error) {
     console.error('Error loading bestsellers:', error);
     throw new Error('Не вдалося завантажити бестселери.');
@@ -52,8 +60,11 @@ export async function getBestsellers() {
 
 export async function getFeedback() {
   try {
-    const response = await mockApi.get('/feedback');
-    return response.data;
+    const response = await floraApi.get('/api/feedback');
+
+    // Backend returns { feedback, total }; callers (main.js) expect a
+    // plain array, so unwrap it here.
+    return response.data.feedback;
   } catch (error) {
     console.error('Error loading feedback:', error);
     throw new Error('Не вдалося завантажити відгуки.');

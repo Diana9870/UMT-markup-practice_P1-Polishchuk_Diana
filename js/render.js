@@ -58,6 +58,61 @@ function createBouquetMarkup({
   `;
 }
 
+function createBestsellerMarkup({
+  id,
+  title,
+  description,
+  price,
+  photoURL,
+  image,
+  image2x,
+}) {
+  const cover = photoURL
+    ? `${API_URL}${photoURL}`
+    : image
+      ? `${IMAGE_PATH}${image}`
+      : '';
+
+  const srcset =
+    !photoURL && image2x
+      ? `srcset="${IMAGE_PATH}${image} 1x, ${IMAGE_PATH}${image2x} 2x"`
+      : '';
+
+  return `
+    <li
+      class="card"
+      data-id="${id}"
+      tabindex="0"
+      role="button"
+      aria-label="View details for ${title}"
+    >
+
+      <img
+        class="top-selling-img"
+        src="${cover}"
+        ${srcset}
+        alt="${title}"
+        width="296"
+        height="296"
+        loading="lazy"
+      >
+
+      <h3 class="top-selling-title">
+        ${title}
+      </h3>
+
+      <p class="top-selling-text">
+        ${description}
+      </p>
+
+      <p class="bouquet-price">
+        $${price}
+      </p>
+
+    </li>
+  `;
+}
+
 export function renderBestsellers(list, items) {
   list.innerHTML = '';
 
