@@ -1,42 +1,59 @@
 const IMAGE_PATH = `${import.meta.env.BASE_URL}`;
+const API_URL = import.meta.env.DEV
+  ? 'http://localhost:3000'
+  : 'https://flora-api-q559.onrender.com';
 
-function createBestsellerMarkup({
+function createBouquetMarkup({
   id,
   title,
   description,
   price,
+  photoURL,
   image,
   image2x,
 }) {
+  const cover = photoURL
+    ? `${API_URL}${photoURL}`
+    : image
+      ? `${IMAGE_PATH}${image}`
+      : '';
+
+  const srcset =
+    !photoURL && image2x
+      ? `srcset="${IMAGE_PATH}${image} 1x, ${IMAGE_PATH}${image2x} 2x"`
+      : '';
+
   return `
     <li
-      class="card"
+      class="bouquet-card"
       data-id="${id}"
       tabindex="0"
       role="button"
       aria-label="View details for ${title}"
     >
-      <img
-        class="top-selling-img"
-        src="${IMAGE_PATH}${image}"
-        srcset="${IMAGE_PATH}${image} 1x, ${IMAGE_PATH}${image2x} 2x"
-        alt="${title}"
-        width="405"
-        height="320"
-        loading="lazy"
-      />
 
-      <h3 class="top-selling-title">
+      <img
+        class="bouquet-img"
+        src="${cover}"
+        ${srcset}
+        alt="${title}"
+        width="296"
+        height="296"
+        loading="lazy"
+      >
+
+      <h3 class="bouquet-name">
         ${title}
       </h3>
 
-      <p class="top-selling-text">
+      <p class="bouquet-text">
         ${description}
       </p>
 
-      <p class="top-selling-price">
+      <p class="bouquet-price">
         $${price}
       </p>
+
     </li>
   `;
 }
