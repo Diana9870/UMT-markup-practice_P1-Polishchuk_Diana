@@ -103,20 +103,29 @@ async function loadBestsellers() {
   try {
     renderLoading(bestsellersList);
 
-    const data = await getBestsellers();
+    const { bestsellers } = await getBestsellers();
+
+    if (!bestsellers.length) {
+      renderEmpty(bestsellersList);
+      return;
+    }
 
     bestsellersById.clear();
-    data.forEach(item => bestsellersById.set(String(item.id), item));
 
-    renderBestsellers(bestsellersList, data);
+    bestsellers.forEach(item => {
+      bestsellersById.set(String(item.id), item);
+    });
+
+    renderBestsellers(bestsellersList, bestsellers);
+
     initSlider(
       '.sell-section',
       '.bestsellers-list',
       '.pagination-dots'
     );
+
   } catch (error) {
     console.error(error);
-
     renderError(bestsellersList);
   }
 }
@@ -125,17 +134,22 @@ async function loadFeedback() {
   try {
     renderLoading(feedbackList);
 
-    const data = await getFeedback();
+    const { feedback } = await getFeedback();
 
-    renderFeedback(feedbackList, data);
+    if (!feedback.length) {
+      renderEmpty(feedbackList);
+      return;
+    }
+
+    renderFeedback(feedbackList, feedback);
 
     initSlider(
-  '.feedback-section',
-  '.feedback-list'
-  );
+      '.feedback-section',
+      '.feedback-list'
+    );
+
   } catch (error) {
     console.error(error);
-
     renderError(feedbackList);
   }
 }
