@@ -103,14 +103,15 @@ async function loadBestsellers() {
   try {
     renderLoading(bestsellersList);
 
-    const { bestsellers } = await getBestsellers();
+    const response = await getBestsellers();
+    const bestsellers = response?.bestsellers ?? [];
 
-    if (!bestsellers.length) {
+    bestsellersById.clear();
+
+    if (bestsellers.length === 0) {
       renderEmpty(bestsellersList);
       return;
     }
-
-    bestsellersById.clear();
 
     bestsellers.forEach(item => {
       bestsellersById.set(String(item.id), item);
@@ -125,7 +126,7 @@ async function loadBestsellers() {
     );
 
   } catch (error) {
-    console.error(error);
+    console.error('Failed to load bestsellers:', error);
     renderError(bestsellersList);
   }
 }
@@ -134,9 +135,10 @@ async function loadFeedback() {
   try {
     renderLoading(feedbackList);
 
-    const { feedback } = await getFeedback();
+    const response = await getFeedback();
+    const feedback = response?.feedback ?? [];
 
-    if (!feedback.length) {
+    if (feedback.length === 0) {
       renderEmpty(feedbackList);
       return;
     }
@@ -149,7 +151,7 @@ async function loadFeedback() {
     );
 
   } catch (error) {
-    console.error(error);
+    console.error('Failed to load feedback:', error);
     renderError(feedbackList);
   }
 }
