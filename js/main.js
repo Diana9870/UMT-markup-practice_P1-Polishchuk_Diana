@@ -19,7 +19,11 @@ import { openProductModal } from './modal.js';
 import '../css/styles.css';
 import { initSlider } from './slider.js';
 
-const IMAGE_PATH = `${import.meta.env.BASE_URL}`;
+const API_URL = import.meta.env.DEV
+  ? 'http://localhost:3000'
+  : 'https://flora-api-q559.onrender.com';
+
+const IMAGE_PATH = import.meta.env.BASE_URL;
 
 const bestsellersList = document.querySelector('#bestsellers-list');
 const bouquetList = document.querySelector('#bouquet-list');
@@ -37,23 +41,28 @@ const state = {
   category: '',
 };
 
-// Keep a lookup of loaded products by id so a click on any
-// bestseller or bouquet card can open the product modal with
-// that specific bouquet's own data.
 const bestsellersById = new Map();
 const bouquetsById = new Map();
 
 function toModalProduct(item) {
-  // Bouquets from the real backend already carry an absolute photoURL;
-  // bestsellers still use the old local image/image2x pair.
   if (item.photoURL) {
-    return { ...item, image: item.photoURL, image2x: '' };
+    const image = item.photoURL.startsWith('http')
+      ? item.photoURL
+      : `${API_URL}${item.photoURL}`;
+
+    return {
+      ...item,
+      image,
+      image2x: image,
+    };
   }
 
   return {
     ...item,
     image: `${IMAGE_PATH}${item.image}`,
-    image2x: item.image2x ? `${IMAGE_PATH}${item.image2x}` : '',
+    image2x: item.image2x
+      ? `${IMAGE_PATH}${item.image2x}`
+      : `${IMAGE_PATH}${item.image}`,
   };
 }
 
